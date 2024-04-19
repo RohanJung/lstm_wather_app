@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Prediction</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-image {
+            background-image: url('../static/howdy.jpg'); /* Default hero image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(4, 1fr); /* Changed to three columns */
+        }
+
+        label {
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            grid-column: span 3; /* Changed to span three columns */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button#view-prediction {
+            background-color: #007bff;
+        }
+
+        button#view-prediction:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        #prediction {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-image" id="hero-image">
+        <div class="container">
+            <h1>Custom Prediction</h1>
+            <form id="/predict" action="/predict" method="POST">
+
+    <label for="LAT">LAT:</label>
+    <input type="text" id="LAT" name="LAT" value="10"><br><br>
+
+    <label for="LON">LON:</label>
+    <input type="text" id="LON" name="LON" value="10"><br><br>
+
+    <label for="PRECTOT">PRECTOT:</label>
+    <input type="text" id="PRECTOT" name="PRECTOT" value="10"><br><br>
+
+    <label for="PS">PS:</label>
+    <input type="text" id="PS" name="PS" value="10"><br><br>
+
+    <label for="QV2M">QV2M:</label>
+    <input type="text" id="QV2M" name="QV2M" value="10"><br><br>
+
+    <label for="T2MWET">T2MWET:</label>
+    <input type="text" id="T2MWET" name="T2MWET" value="10" ><br><br>
+
+    <label for="TS">TS:</label>
+    <input type="text" id="TS" name="TS" value="10"><br><br>
+
+    <label for="WS50M">WS50M:</label>
+    <input type="text" id="WS50M" name="WS50M" value="10"><br><br>
+
+    <label for="WS10M">WS10M:</label>
+    <input type="text" id="WS10M" name="WS10M" value="10"><br><br>
+
+    <label for="T2M_MAX">T2M_MAX:</label>
+    <input type="text" id="T2M_MAX" name="T2M_MAX" value="10" ><br><br>
+
+    <label for="T2M_MIN">T2M_MIN:</label>
+    <input type="text" id="T2M_MIN" name="T2M_MIN" value="10"><br><br>
+
+    <label for="T2M_RANGE">T2M_RANGE:</label>
+    <input type="text" id="T2M_RANGE" name="T2M_RANGE" value="10"><br><br>
+
+    <label for="WS10M_MAX">WS10M_MAX:</label>
+    <input type="text" id="WS10M_MAX" name="WS10M_MAX" value="10"><br><br>
+
+    <label for="WS10M_MIN">WS10M_MIN:</label>
+    <input type="text" id="WS10M_MIN" name="WS10M_MIN" value="10"><br><br>
+
+    <label for="WS50M_MAX">WS50M_MAX:</label>
+    <input type="text" id="WS50M_MAX" name="WS50M_MAX" value="10"><br><br>
+
+    <label for="WS50M_MIN">WS50M_MIN:</label>
+    <input type="text" id="WS50M_MIN" name="WS50M_MIN" value="10"><br><br>
+
+    <label for="WS50M_RANGE">WS50M_RANGE:</label>
+    <input type="text" id="WS50M_RANGE" name="WS50M_RANGE" value="10"><br><br>
+                <!-- Add other input fields here -->
+                <button type="submit">Predict</button>
+                <button type="button" id="view-prediction">View Prediction</button>
+                <button type="button" id="view-dashboard">Dashboard</button>
+                <button type="button" id="view-graph">Graph</button>
+            </form>
+            <p id="prediction-results"></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('predict-form');
+        const predictionSpan = document.getElementById('prediction');
+        const heroImage = document.getElementById('hero-image');
+        const viewPredictionBtn = document.getElementById('view-prediction');
+        const viewDashboardBtn = document.getElementById('view-dashboard');
+        const viewGraphBtn = document.getElementById('view-graph');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            predictTemperature();
+        });
+        viewPredictionBtn.addEventListener('click', () => {
+            window.location.href = '/index'; // Redirect to the route that renders main.html
+        });
+        viewDashboardBtn.addEventListener('click',() =>{
+            window.location.href = '/dash';
+        })
+        viewGraphBtn.addEventListener('click', () =>{
+            window.location.href = '/graph';
+        })
+
+        function predictTemperature() {
+            const formData = new FormData(form);
+            const inputData = Object.fromEntries(formData);
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(inputData).toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                var predictionResults = document.getElementById('prediction-results');
+                predictionResults.innerHTML = `
+                    <p>Temperature: ${data.temperature}</p>
+                    <p>Humidity: ${data.humidity}</p>
+                    <p>Wind Speed: ${data.windspeed}</p>`;
+
+                // Update hero image based on temperature range
+                if (temperature < 20) {
+                    heroImage.style.backgroundImage = "url('../static/rody.jpg')";
+                } else if (temperature >= 20 && temperature <= 35) {
+                    heroImage.style.backgroundImage = "url('../static/summer.jpg')";
+                } else {
+                    heroImage.style.backgroundImage = "url('../static/hot.jpg')";
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

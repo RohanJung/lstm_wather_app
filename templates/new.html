@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Prediction</title>
+    <style>
+                body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-image {
+            background-image: url('../static/howdy.jpg'); /* Default hero image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(5, 1fr); /* Changed to five columns */
+            grid-template-rows: repeat(6, auto);
+        }
+
+.form-row {
+    grid-column: 1 / -1; /* Span across all columns */
+    display: flex;
+    justify-content: center; /* Center the row */
+    gap: 10px; /* Add some spacing between the fields */
+}
+
+.centered-fields {
+    margin-left: 60px; /* Adjust this value to center the fields */
+}
+
+        label {
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 120px;
+        }
+
+        button .work{
+            margin-left: -1px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button#view-prediction {
+            background-color: #007bff;
+            margin-top: 10px; /* Add some space between buttons */
+        }
+
+        button#view-prediction:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        #prediction {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .hero-image {
+            background-image: url('../static/howdy.jpg'); /* Default hero image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(5, 2fr); /* Changed to three columns */
+        }
+
+
+        label {
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            grid-column: span 3; /* Changed to span three columns */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button#view-prediction {
+            background-color: #007bff;
+        }
+
+        button#view-prediction:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        #prediction {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-image" id="hero-image">
+        <div class="container">
+            <h1>Custom Prediction</h1>
+            <form id="prediction-form" action="/predict" method="POST">
+                   <div>
+                <label for="LAT">LAT:</label>
+                <input type="number" id="LAT" name="LAT" value="10"><br><br>
+                       </div>
+
+                <div>
+
+                <label for="LON">LON:</label>
+                <input type="number" id="LON" name="LON" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="PRECTOT">PRECTOT:</label>
+                <input type="number" id="PRECTOT" name="PRECTOT" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="PS">PS:</label>
+                <input type="number" id="PS" name="PS" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="QV2M">QV2M:</label>
+                <input type="number" id="QV2M" name="QV2M" value="10"><br><br>
+                    </div>
+
+                <div>
+                <label for="T2MWET">T2MWET:</label>
+                <input type="number" id="T2MWET" name="T2MWET" value="10" ><br><br>
+                    </div>
+
+                <div>
+
+                <label for="TS">TS:</label>
+                <input type="number" id="TS" name="TS" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS50M">WS50M:</label>
+                <input type="number" id="WS50M" name="WS50M" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS10M">WS10M:</label>
+                <input type="number" id="WS10M" name="WS10M" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="T2M_MAX">T2M_MAX:</label>
+                <input type="number" id="T2M_MAX" name="T2M_MAX" value="10" ><br><br>
+                    </div>
+
+                <div>
+
+                <label for="T2M_MIN">T2M_MIN:</label>
+                <input type="number" id="T2M_MIN" name="T2M_MIN" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="T2M_RANGE">T2M_RANGE:</label>
+                <input type="number" id="T2M_RANGE" name="T2M_RANGE" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS10M_MAX">WS10M_MAX:</label>
+                <input type="number" id="WS10M_MAX" name="WS10M_MAX" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS10M_MIN">WS10M_MIN:</label>
+                <input type="number" id="WS10M_MIN" name="WS10M_MIN" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS50M_MAX">WS50M_MAX:</label>
+                <input type="number" id="WS50M_MAX" name="WS50M_MAX" value="10"><br><br>
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div>
+                <label for="WS50M_MIN">WS50M_MIN:</label>
+                <input type="number" id="WS50M_MIN" name="WS50M_MIN" value="10"><br><br>
+                    </div>
+
+                <div>
+
+                <label for="WS50M_RANGE">WS50M_RANGE:</label>
+                <input type="number" id="WS50M_RANGE" name="WS50M_RANGE" value="10"><br><br>
+                    </div>
+
+                    </div>
+
+                <br>
+
+
+                <button type="submit" class="work" style="margin-left: -1px" >Predict</button>
+                <button type="button" id="view-dashboard" onclick="window.location.href='/dash' ">Dashboard</button>
+
+
+
+            </form>
+              <p id="prediction-results"></p>
+        </div>
+    </div>
+
+<script>
+    const form = document.getElementById('prediction-form');
+const viewPredictionBtn = document.getElementById('view-prediction');
+const viewDashboardBtn = document.getElementById('view-dashboard');
+
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Serialize form data to JSON
+    const formData = new FormData(form);
+    const jsonData = {};
+
+    formData.forEach(function(value, key) {
+        jsonData[key] = value;
+    });
+
+    // Log JSON data to console
+    console.log('JSON data:', jsonData);
+
+    // Send JSON data to server
+    fetch('/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle response data
+        var predictionResults = document.getElementById('prediction-results');
+        predictionResults.innerHTML = `
+            <p>Temperature: ${data.temperature}</p>
+            <p>Humidity: ${data.humidity}</p>
+            <p>Wind Speed: ${data.windspeed}</p>`;
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+viewPredictionBtn.addEventListener('click', () => {
+    window.location.href = '/index'; // Redirect to the route that renders main.html
+});
+viewDashboardBtn.addEventListener('click', () => {
+    window.location.href = '/dash';
+});
+viewGraphBtn.addEventListener('click', () => {
+    window.location.href = '/graph';
+});
+
+</script>
+
+</body>
+</html>

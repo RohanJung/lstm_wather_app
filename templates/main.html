@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Prediction</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo h1 {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        /* Content Container */
+        .container {
+            margin-top: 80px; /* Adjust as needed to provide space below the navbar */
+        }
+
+        /* Additional Styles */
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>Weather Prediction</h1>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="active home">Home</a>
+            <a href='/dash' class='dashboard'>Dashboard</a>
+            <a href="/gg" class="graph">Evaulation Metrics</a>
+            <a href="/custom" class="graph">Custom forecast</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-box">
+            <i class='bx bxs-map'></i>
+            <input id="search-btn" type="text" placeholder="Enter Your Location">
+            <button class="bx bx-search" onclick="getLatLon()"></button>
+        </div>
+        <div class="weather-box">
+            <div class="box">
+                <div class="info-weather">
+                    <div class="weather">
+                        <img src="../static/moderate.jpg"></img>
+                        <p class="temperature"> 0 <span>°C</span></p>
+                        <p class="description">Moderately sunny</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-details">
+            <div class="humidity">
+                <i class="bx bx-water"></i>
+                <div class="text">
+                    <div class="info-humidity">
+                        <span>0%</span>
+                    </div>
+                    <p>Humidity</p>
+                </div>
+            </div>
+            <div class="wind">
+                <i class="bx bx-wind"></i>
+                <div class="text">
+                    <div class="info-wind">
+                        <span>0Km/h</span>
+                    </div>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+        </div>
+        <div class="not-found">
+            <div class="box">
+                <img src="../static/moderate.jpgs">
+                <p> Location not found !!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const weatherBox = document.querySelector('.weather-box');
+        const weatherDetails = document.querySelector('.weather-details');
+        const error404 = document.querySelector('.not-found');
+
+        function getLatLon() {
+            var location = document.getElementById("search-btn").value;
+            console.log("Location entered:", location);
+
+            // Make an AJAX request to the Nominatim API to get latitude and longitude
+            var url = "https://nominatim.openstreetmap.org/search?q=" + location + "&format=json";
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    console.log("API response:", data);
+                    if (data.length > 0) {
+                        var lat = data[0].lat;
+                        var lon = data[0].lon;
+                        console.log("Latitude:", lat, "Longitude:", lon);
+                        // Call new_predict function with latitude and longitude
+                        new_predict(lat, lon);
+                    } else {
+                        document.getElementById("result").innerHTML = "Location not found.";
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function new_predict(lat, lon) {
+            // Make a POST request to the Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/new_predict", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var prediction = xhr.responseText;
+                    console.log("Prediction:", prediction);
+                    // Parse the prediction data
+                    var predictionData = JSON.parse(prediction);
+
+                    // Extract individual prediction values
+                    let temperature1 = predictionData.temperature.toFixed(2);
+                    let humidity1 = predictionData.humidity.toFixed(2);
+                    let windspeed1 = predictionData.windspeed.toFixed(2);
+                    console.log(temperature1, humidity1, windspeed1)
+
+                    // Determine weather classification based on temperature1
+                    let weatherClassification = '';
+                    if (temperature1 >= 0 && temperature1 <= 10) {
+                        weatherClassification = 'Freezing';
+                    } else if (temperature1 > 10 && temperature1 <= 20) {
+                        weatherClassification = 'Cold';
+                    } else if (temperature1 > 20 && temperature1 <= 23) {
+                        weatherClassification = 'Warm';
+                    } else if (temperature1 > 23 && temperature1 <= 26) {
+                        weatherClassification = 'Sunny';
+                    } else if (temperature1 > 26 && temperature1 <= 32) {
+                        weatherClassification = 'Hot';
+                    } else if (temperature1 > 32 && temperature1 <= 40) {
+                        weatherClassification = 'Extremely Hot';
+                    } else {
+                        weatherClassification = 'Unknown';
+                    }
+
+                                        // Handle weather classification to set appropriate image
+                    // Handle weather classification to set appropriate image and description
+                    const image = document.querySelector('.weather-box img');
+                    const description = document.querySelector('.weather-box .description');
+
+                    switch (weatherClassification) {
+                        case 'Freezing':
+                            image.src = '../static/freezing.jpg';
+                            description.textContent = 'Freezing';
+                            break;
+                        case 'Cold':
+                            image.src = '../static/cold.jpg';
+                            description.textContent = 'Cold';
+                            break;
+                        case 'Warm':
+                            image.src = '../static/warm.jpg';
+                            description.textContent = 'Warm';
+                            break;
+                        case 'Sunny':
+                            image.src = '../static/sunny.jpg';
+                            description.textContent = 'Sunny';
+                            break;
+                        case 'Hot':
+                            image.src = '../static/hot.jpg';
+                            description.textContent = 'Hot';
+                            break;
+                        case 'Extremely Hot':
+                            image.src = '../static/extremely_hot.jpg';
+                            description.textContent = 'Extremely Hot';
+                            break;
+                        default:
+                            // Set a default image and description if the weather classification is unknown
+                            image.src = '../static/default.jpg';
+                            description.textContent = 'Unknown';
+                    }
+
+
+                                        // Other code to update temperature, humidity, and windspeed display goes here
+                    const temperature = document.querySelector('.weather-box .temperature');
+                    temperature.innerHTML = temperature1 + '°C';
+                    const humidity = document.querySelector('.weather-details .humidity span');
+                    humidity.innerHTML = humidity1 + '%';
+                    const wind = document.querySelector('.weather-details .wind span');
+                    wind.innerHTML = windspeed1 + 'Km/h';
+
+                    // Hide or show weather details based on whether location was found
+                    if (weatherClassification === 'Unknown') {
+                        container.style.height = '450px';
+                        weatherBox.classList.remove('active');
+                        weatherDetails.classList.remove('active');
+                        error404.classList.add('active');
+                    } else {
+                        container.style.height = '560px';
+                        weatherBox.classList.add('active');
+                        weatherDetails.classList.add('active');
+                        error404.classList.remove('active');
+                    }
+                }
+            };
+            // Send latitude and longitude as form data
+            xhr.send("lat=" + lat + "&lon=" + lon);
+        }
+
+        // Call the function to get geolocation when the page loads
+        window.onload = function() {
+            getLocation();
+        };
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, function(error) {
+                    alert('Error getting your location. Please enter your location manually.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser. Please enter your location manually.');
+            }
+        }
+
+        function showPosition(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            new_predict(lat, lon);
+        }
+    </script>
+</body>
+</html>

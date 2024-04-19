@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/new.css">
+
+</head>
+<body>
+<div class="grid-container">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+
+        </div>
+        <div class="header-right">
+            <span class="material-icons-outlined clickable" id="notifications">notifications</span>
+            <span class="material-icons-outlined clickable" id="email">email</span>
+            <span class="material-icons-outlined clickable" id="account" onclick="openLoginModal()">account_circle</span>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div class="sidebar-brand">
+                <span class="material-icons-outlined">inventory</span> Weather forecasting System
+            </div>
+            <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+        </div>
+
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item dashboard-link">
+                <span class="material-icons-outlined" onclick="window.location.href='/dash'">dashboard</span> Dashboard
+            </li>
+            <li class="sidebar-list-item weather-forecast-link" onclick="window.location.href='/'">
+                <span class="material-icons-outlined">inventory_2</span> Weather forecast
+            </li>
+            <li class="sidebar-list-item custom-forecast-link" onclick="window.location.href='/new'">
+                <span class="material-icons-outlined">fact_check</span> Custom forecast
+            </li>
+
+
+            <li class="sidebar-list-item features-link" onclick="window.location.href='/test'">
+                <span class="material-icons-outlined">shopping_cart</span> Features
+            </li>
+            <li class="sidebar-list-item reports-link" onclick="window.location.href='/gg'">
+                <span class="material-icons-outlined">poll</span> Evaulation Metrics
+            </li>
+
+        </ul>
+    </aside>
+    <!-- End Sidebar -->
+
+    <!-- Main -->
+    <main class="main-container">
+        <div class="main-title">
+            <p class="font-weight-bold">DASHBOARD</p>
+        </div>
+
+        <div class="main-cards">
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Input features</p>
+                    <span class="material-icons-outlined text-blue">inventory_2</span>
+                </div>
+                <span class="text-primary font-weight-bold">17</span>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Output feature</p>
+                    <span class="material-icons-outlined text-blue">inventory_2</span>
+                </div>
+                <span class="text-primary font-weight-bold">3</span>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Train data</p>
+                    <span class="material-icons-outlined text-blue">inventory_2</span>
+                </div>
+                <span class="text-primary font-weight-bold">14245</span>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Test data</p>
+                    <span class="material-icons-outlined text-blue">inventory_2</span>
+                </div>
+                <span class="text-primary font-weight-bold">2848</span>
+            </div>
+
+        </div>
+
+        <!-- Container for the spline graphs -->
+        <div class="charts-row">
+            <!-- Spline graph for RH2M Actual vs Predicted -->
+            <div class="spline-chart-container">
+                <div id="rh2m-chart" class="spline-chart"></div>
+            </div>
+            <!-- Spline graph for T2M Actual vs Predicted -->
+            <div class="spline-chart-container">
+                <div id="t2m-chart" class="spline-chart"></div>
+            </div>
+
+            <div class="spline-chart-container">
+                <div id="ws10m-range-chart" class="spline-chart"></div>
+            </div>
+        </div>
+
+        <!-- Container for the spline graphs -->
+        <div class="chart-row">
+            <!-- Spline graph for WS10M_RANGE Actual vs Predicted -->
+
+        </div>
+    </main>
+    <!-- End Main -->
+</div>
+    <!-- Login Modal -->
+    <div id="id01" class="modal">
+
+        <form class="modal-content animate" action="/action_page.php" method="post">
+          <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit">Login</button>
+            <label>
+              <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+          </div>
+
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
+          </div>
+        </form>
+      </div>
+
+
+
+<!-- Scripts -->
+<!-- ApexCharts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+<!-- Custom JS -->
+<script src="../static/new.js"></script>
+
+<script>
+    // Open the login modal
+    function openLoginModal() {
+    console.log("opened")
+        document.getElementById('id01').style.display = 'block';
+    }
+
+    // Close the login modal
+    function closeLoginModal() {
+        document.getElementById('loginModal').style.display = 'none';
+    }
+
+    // Function to navigate to the dashboard page
+    const dashboardLink = document.querySelector('.dashboard-link');
+    dashboardLink.addEventListener('click', () => {
+        window.location.href = '/dash';
+    });
+
+    // Function to navigate to the weather forecast page
+
+
+    // Function to navigate to the graphs page
+
+    // Load data from CSV files
+    const rh2mData = {
+        csvUrl: 'static/csv/rh2m_actual_predicted.csv',
+        seriesName: ['RH2M Actual', 'RH2M Predicted']
+    };
+    const t2mData = {
+        csvUrl: 'static/csv/t2m_actual_predicted.csv',
+        seriesName: ['T2M Actual', 'T2M Predicted']
+    };
+    const ws10mRangeData = {
+        csvUrl: 'static/csv/ws10m_range_actual_predicted.csv',
+        seriesName: ['WS10M_RANGE Actual', 'WS10M_RANGE Predicted']
+    };
+
+    // Function to parse CSV data
+    async function parseCsvData(data, limit = 10) {
+        const response = await fetch(data.csvUrl);
+        const csvData = await response.text();
+        const rows = csvData.split('\n').slice(1, limit + 1); // Limit the number of rows processed
+        const categories = [];
+        const series = Array.from({ length: data.seriesName.length }, () => []);
+
+        rows.forEach(row => {
+            const [instance, ...values] = row.split(',');
+            categories.push(instance);
+            values.forEach((value, index) => {
+                series[index].push(parseFloat(value).toFixed(2)); // Format the value to have two decimal places
+            });
+        });
+
+        return { categories, series };
+    }
+
+    // Function to create spline graph
+    async function createSplineGraph(containerId, data) {
+        const chartData = await parseCsvData(data);
+        const options = {
+            chart: {
+                type: 'line',
+                height: 350,
+                stacked: false,
+                fontFamily: 'Montserrat, sans-serif',
+                background: '#ffffff', // Set white background
+            },
+            colors: ['#008FFB', '#FF4560'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: [4, 4]
+            },
+            title: {
+                text: `${containerId} - Actual vs Predicted`,
+                align: 'left',
+                style: {
+                    fontWeight: 'bold'
+                }
+            },
+            xaxis: {
+                categories: chartData.categories
+            },
+            yaxis: {
+                title: {
+                    text: 'Value'
+                }
+            }
+        };
+
+        const chart = new ApexCharts(document.querySelector(`#${containerId}`), {
+            ...options,
+            series: data.seriesName.map((name, index) => ({ name, data: chartData.series[index] }))
+        });
+
+        chart.render();
+    }
+
+    // Create spline graphs
+    createSplineGraph('rh2m-chart', rh2mData);
+    createSplineGraph('t2m-chart', t2mData);
+    createSplineGraph('ws10m-range-chart', ws10mRangeData);
+</script>
+
+</body>
+</html>

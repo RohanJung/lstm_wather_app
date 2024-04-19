@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .feature-section {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .feature-cell {
+            width: 33.33%;
+            box-sizing: border-box;
+            padding-right: 15px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .feature-cell {
+                width: 100%;
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/dash">Dashboard</a>
+    </div>
+
+    <h1>Features</h1>
+
+    <div class="feature-section">
+        <h2>Input Features</h2>
+        <table>
+            <tbody id="input-features">
+                <!-- Add input features data dynamically here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="feature-section">
+        <h2>Output Features</h2>
+        <table>
+            <tbody id="output-features">
+                <!-- Add output features data dynamically here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Sample input and output features data
+        const inputFeatures = ['LAT', 'LON', 'PRECTOT', 'PS', 'QV2M', 'T2MWET', 'TS', 'WS50M', 'WS10M', 'T2M_MAX', 'T2M_MIN', 'T2M_RANGE', 'WS10M_MAX', 'WS10M_MIN', 'WS50M_MAX', 'WS50M_MIN', 'WS50M_RANGE'];
+        const outputFeatures = ['T2M', 'WS10M_RANGE', 'RH2M'];
+
+        // Function to dynamically populate input features table
+        function populateInputFeatures() {
+            const inputFeaturesTableBody = document.getElementById('input-features');
+            let row;
+            inputFeatures.forEach((feature, index) => {
+                if (index % 3 === 0) {
+                    row = document.createElement('tr');
+                    inputFeaturesTableBody.appendChild(row);
+                }
+                const cell = document.createElement('td');
+                cell.textContent = feature;
+                cell.className = 'feature-cell';
+                row.appendChild(cell);
+            });
+        }
+
+        // Function to dynamically populate output features table
+        function populateOutputFeatures() {
+            const outputFeaturesTableBody = document.getElementById('output-features');
+            outputFeatures.forEach(feature => {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = feature;
+                row.appendChild(cell);
+                outputFeaturesTableBody.appendChild(row);
+            });
+        }
+
+        // Populate input and output features tables on page load
+        window.onload = function() {
+            populateInputFeatures();
+            populateOutputFeatures();
+        };
+    </script>
+</body>
+</html>
