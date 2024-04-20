@@ -2,7 +2,7 @@ import pandas as pd
 from flask import Flask, request, jsonify, render_template
 import numpy as np
 import pickle
-
+import plotly.graph_objects as go
 
 from sklearn.preprocessing import MinMaxScaler
 
@@ -51,6 +51,34 @@ def index():
 @app.route('/dash')
 def dashbaord():
     return render_template('dash.html')
+@app.route('/comparison_result_graph')
+def comparison_result_graph():
+    return render_template('comparison_result_graph.html')
+
+@app.route('/evaluation_metrics_graph')
+def evaluation_metrics_graph():
+    return render_template('evaluation_metrics_graph.html')
+
+@app.route('/mse_graph')
+def mse_graph():
+    return render_template('mse_graph.html')
+
+@app.route('/rmse_graph')
+def rmse_graph():
+    return render_template('rmse_graph.html')
+
+@app.route('/t2m_comparison_graph')
+def rmse_graph():
+    return render_template('t2m_comparison_graph.html')
+
+@app.route('/rh2m_comparison_graph')
+def rh2m_comparison_graph():
+    return render_template('rh2m_comparison_graph.html')
+
+@app.route('/ws10m_range_comparison_graph')
+def ws10m_range_comparison_graph():
+    return render_template('ws10m_range_comparison_graph.html')
+
 
 @app.route('/work')
 def work():

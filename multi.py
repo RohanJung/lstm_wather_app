@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+form
 
-import plotly.graph_objects as go
 
 class SimpleLSTM:
     def __init__(self, input_size, hidden_size):
@@ -163,7 +163,7 @@ class SimpleLSTM:
 
 
 # Load the dataset
-dataset = pd.read_csv(r"C:\Users\\Lenovo\Contacts\finale.csv")
+dataset = pd.read_csv(r"C:\Users\Intruder\Documents\New folder\lstm_wather_app\static\csv\finale.csv")
 
 
 features = dataset[[ 'LAT', 'LON', 'PRECTOT', 'PS', 'QV2M', 'T2MWET', 'TS', 'WS50M', 'WS10M', 'T2M_MAX', 'T2M_MIN', 'T2M_RANGE', 'WS10M_MAX', 'WS10M_MIN', 'WS50M_MAX', 'WS50M_MIN', 'WS50M_RANGE']]
