@@ -165,11 +165,11 @@ class SimpleLSTM:
 # Load the dataset
 dataset = pd.read_csv(r"C:\Users\\Lenovo\Contacts\finale.csv")
 
-# Select the features and target variables
+
 features = dataset[[ 'LAT', 'LON', 'PRECTOT', 'PS', 'QV2M', 'T2MWET', 'TS', 'WS50M', 'WS10M', 'T2M_MAX', 'T2M_MIN', 'T2M_RANGE', 'WS10M_MAX', 'WS10M_MIN', 'WS50M_MAX', 'WS50M_MIN', 'WS50M_RANGE']]
 targets = dataset[['T2M', 'WS10M_RANGE', 'RH2M']]
 
-# Normalize both the features and the target variables using Min-Max scaling
+
 scaler_features = MinMaxScaler()
 scaler_target = [MinMaxScaler(), MinMaxScaler(), MinMaxScaler()]
 feature_names = [ 'LAT', 'LON', 'PRECTOT', 'PS', 'QV2M', 'T2MWET', 'TS', 'WS50M', 'WS10M', 'T2M_MAX', 'T2M_MIN', 'T2M_RANGE', 'WS10M_MAX', 'WS10M_MIN', 'WS50M_MAX', 'WS50M_MIN', 'WS50M_RANGE']
@@ -186,8 +186,14 @@ print("Expected number of features:", scaler_features.n_features_in_)
 # Reshape the data for LSTM input (samples, time steps, features)
 features_reshaped = np.reshape(features_scaled, (features_scaled.shape[0], 1, features_scaled.shape[1]))
 
-# Split the data into training and testing sets
+
 X_train, X_test, y_train, y_test = train_test_split(features_reshaped, target_scaled, test_size=0.2, random_state=42)
+X_test_df = pd.DataFrame(X_test.reshape(X_test.shape[0], -1), columns=feature_names)
+y_test_df = pd.DataFrame(y_test, columns=['T2M', 'WS10M_RANGE', 'RH2M'])
+
+# Save X_test and y_test to separate CSV files
+X_test_df.to_csv('X_test.csv', index=False)
+y_test_df.to_csv('y_test.csv', index=False)
 
 # Instantiate the SimpleLSTM model
 input_size = features_reshaped.shape[2]
@@ -429,4 +435,3 @@ fig.update_layout(title='Training History',
                   yaxis_title='Metric Value')
 
 # Show the plot
-fig.show()

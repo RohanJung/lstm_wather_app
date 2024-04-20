@@ -179,6 +179,10 @@ body {
   .card:nth-child(4) {
     border-left: 7px solid #cc3c43;
   }
+    .card:nth-child(5) {
+    border-left: 7px solid #ADD8E6;
+  }
+
 
   .card > span {
     font-size: 20px;

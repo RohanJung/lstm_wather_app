@@ -14,6 +14,23 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../static/new.css">
 
+    <style>
+        .main-cards {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Distribute space between cards */
+}
+
+.card {
+    width: calc(25% - 20px); /* Adjust the width of each card */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+
+    .card.final-card {
+    border-bottom: 1px solid #dee2e6; /* Add horizontal line at the bottom */
+}
+
+}
+    </style>
+
 </head>
 <body>
 <div class="grid-container">
@@ -61,6 +78,12 @@
             <li class="sidebar-list-item reports-link" onclick="window.location.href='/gg'">
                 <span class="material-icons-outlined">poll</span> Evaulation Metrics
             </li>
+            <li class="sidebar-list-item reports-link" onclick="window.location.href='/work'">
+                <span class="material-icons-outlined">poll</span> View Dataset
+            </li>
+            <li class="sidebar-list-item reports-link" onclick="window.location.href='/test_dataset'">
+                <span class="material-icons-outlined">poll</span> Train Dataset
+            </li>
 
         </ul>
     </aside>
@@ -105,6 +128,18 @@
                 </div>
                 <span class="text-primary font-weight-bold">2848</span>
             </div>
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Test Epoch</p>
+                    <span class="material-icons-outlined text-blue">inventory_2</span>
+                </div>
+                <span class="text-primary font-weight-bold">100</span>
+            </div>
+
+
+
+
+
 
         </div>
 
@@ -244,7 +279,7 @@
                 width: [4, 4]
             },
             title: {
-                text: `${containerId} - Actual vs Predicted`,
+                text: `${containerId}-Actual vs Predicted`,
                 align: 'left',
                 style: {
                     fontWeight: 'bold'

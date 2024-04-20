@@ -41,10 +41,9 @@ def preprocess_input(data):
         print("Preprocessing Input Error:", str(e))
         raise e
 
-
-
-
 # Route for index page
+
+
 @app.route('/')
 def index():
     return render_template('main.html', feature_names=feature_names)
@@ -52,6 +51,14 @@ def index():
 @app.route('/dash')
 def dashbaord():
     return render_template('dash.html')
+
+@app.route('/work')
+def work():
+    return  render_template('work.html')
+
+@app.route('/test_dataset')
+def test_dataset():
+    return  render_template('test_dataset.html')
 
 @app.route('/gg')
 def gg():
@@ -71,7 +78,6 @@ def main():
 # Route for prediction
 # Route for prediction
 @app.route('/predict', methods=['POST'])
-
 def predict():
     try:
         # Load the saved model weights
@@ -94,7 +100,6 @@ def predict():
         scaler_features.feature_names_in_ = feature_names
         print(feature_names)
 
-
         # Preprocess input data
         input_data_processed = preprocess_input(input_data)
         print("Preprocessed Input Data:", input_data_processed)
@@ -111,18 +116,11 @@ def predict():
         y_pred = np.column_stack([scaler_target[i].inverse_transform(y_pred_scaled_2d[:, i].reshape(-1, 1)) for i in
                                   range(len(scaler_target))])
         print(y_pred)
-
         print('temprature:',y_pred[0][0])
         print('humidity',y_pred[0][1])
         print('windspeed',y_pred[0][2])
-
-
-
-        # Send the prediction as JSON response
         return jsonify({
-            'temperature': abs(y_pred[0][0] + 15),
-            'humidity': abs(y_pred[0][1]+10),
-            'windspeed': abs(y_pred[0][2]+7)
+            'temperature': abs(y_pred[0][0]),'humidity': abs(y_pred[0][1]),'windspeed': abs(y_pred[0][2])
         })
 
     except Exception as e:
@@ -168,9 +166,7 @@ def new_predict():
 
         # Return the prediction as a JSON response with 3 output features
         return jsonify({
-            'temperature': abs(y_pred[0][0] + 17),
-            'humidity': abs(y_pred[0][1] +10),
-            'windspeed': abs(y_pred[0][2]+7)
+            'temperature': abs(y_pred[0][0]),'humidity': abs(y_pred[0][1]),'windspeed': abs(y_pred[0][2])
         })
 
     except Exception as e:
